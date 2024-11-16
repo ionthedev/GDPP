@@ -4,9 +4,24 @@
 detect_os() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        OS=$NAME
+        if [[ -n "$ID_LIKE" ]]; then
+            # Check if it's based on supported distributions
+            if [[ "$ID_LIKE" == *"ubuntu"* ]] || [[ "$ID_LIKE" == *"debian"* ]]; then
+                OS="Ubuntu"
+            elif [[ "$ID_LIKE" == *"arch"* ]]; then
+                OS="Arch"
+            elif [[ "$ID_LIKE" == *"fedora"* ]]; then
+                OS="Fedora"
+            else
+                echo_error "Unsupported OS base: $ID_LIKE"
+                exit 1
+            fi
+        else
+            # If ID_LIKE is not set, use NAME
+            OS=$NAME
+        fi
     else
-        echo "Cannot detect OS"
+        echo_error "Cannot detect OS"
         exit 1
     fi
 }
@@ -176,24 +191,24 @@ compatibility_minimum = "${godot_version}"
 reloadable = true
 
 [libraries]
-macos.debug = "res://bin/lib${project_name}.macos.template_debug.framework"
-macos.release = "res://bin/lib${project_name}.macos.template_release.framework"
-ios.debug = "res://bin/lib${project_name}.ios.template_debug.xcframework"
-ios.release = "res://bin/lib${project_name}.ios.template_release.xcframework"
-windows.debug.x86_32 = "res://bin/lib${project_name}.windows.template_debug.x86_32.dll"
-windows.release.x86_32 = "res://bin/lib${project_name}.windows.template_release.x86_32.dll"
-windows.debug.x86_64 = "res://bin/lib${project_name}.windows.template_debug.x86_64.dll"
-windows.release.x86_64 = "res://bin/lib${project_name}.windows.template_release.x86_64.dll"
-linux.debug.x86_64 = "res://bin/lib${project_name}.linux.template_debug.x86_64.so"
-linux.release.x86_64 = "res://bin/lib${project_name}.linux.template_release.x86_64.so"
-linux.debug.arm64 = "res://bin/lib${project_name}.linux.template_debug.arm64.so"
-linux.release.arm64 = "res://bin/lib${project_name}.linux.template_release.arm64.so"
-linux.debug.rv64 = "res://bin/lib${project_name}.linux.template_debug.rv64.so"
-linux.release.rv64 = "res://bin/lib${project_name}.linux.template_release.rv64.so"
-android.debug.x86_64 = "res://bin/lib${project_name}.android.template_debug.x86_64.so"
-android.release.x86_64 = "res://bin/lib${project_name}.android.template_release.x86_64.so"
-android.debug.arm64 = "res://bin/lib${project_name}.android.template_debug.arm64.so"
-android.release.arm64 = "res://bin/lib${project_name}.android.template_release.arm64.so"
+macos.debug = "res://bin/${project_name}.macos.template_debug.framework"
+macos.release = "res://bin/${project_name}.macos.template_release.framework"
+ios.debug = "res://bin/${project_name}.ios.template_debug.xcframework"
+ios.release = "res://bin/${project_name}.ios.template_release.xcframework"
+windows.debug.x86_32 = "res://bin/${project_name}.windows.template_debug.x86_32.dll"
+windows.release.x86_32 = "res://bin/${project_name}.windows.template_release.x86_32.dll"
+windows.debug.x86_64 = "res://bin/${project_name}.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/${project_name}.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/${project_name}.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://bin/${project_name}.linux.template_release.x86_64.so"
+linux.debug.arm64 = "res://bin/${project_name}.linux.template_debug.arm64.so"
+linux.release.arm64 = "res://bin/${project_name}.linux.template_release.arm64.so"
+linux.debug.rv64 = "res://bin/${project_name}.linux.template_debug.rv64.so"
+linux.release.rv64 = "res://bin/${project_name}.linux.template_release.rv64.so"
+android.debug.x86_64 = "res://bin/${project_name}.android.template_debug.x86_64.so"
+android.release.x86_64 = "res://bin/${project_name}.android.template_release.x86_64.so"
+android.debug.arm64 = "res://bin/${project_name}.android.template_debug.arm64.so"
+android.release.arm64 = "res://bin/${project_name}.android.template_release.arm64.so"
 
 [dependencies]
 ios.debug = {
