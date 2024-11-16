@@ -159,7 +159,6 @@ else:
         "project/bin/{}{}{}".format(
             project_name,
             env["suffix"],
-            env["SHLIBSUFFIX"]
             ),
         source=sources,
     )
@@ -454,11 +453,24 @@ setup_project_structure() {
 
 fix_permissions() {
     echo_status "Fixing file permissions..."
+    # Get the actual user who ran the script with sudo
+    ACTUAL_USER=$SUDO_USER
+    ACTUAL_GROUP=$(id -gn $SUDO_USER)
+
+    echo_info "Changing ownership to $ACTUAL_USER:$ACTUAL_GROUP"
+    chown -R $ACTUAL_USER:$ACTUAL_GROUP ./src/
+    chown -R $ACTUAL_USER:$ACTUAL_GROUP ./project/
+    chown -R $ACTUAL_USER:$ACTUAL_GROUP ./SConstruct
+    chown -R $ACTUAL_USER:$ACTUAL_GROUP ./godot-cpp/
+    chown -R $ACTUAL_USER:$ACTUAL_GROUP ./doc_classes/
+
+    # Then set permissions
     chmod -R 755 ./src/
     chmod -R 755 ./project/
     chmod -R 755 ./SConstruct
     chmod -R 755 ./godot-cpp/
-    chmod -R 755 ./SConstruct
+    chmod -R 755 ./doc_classes/
+
     echo_success "File permissions fixed!"
 }
 
