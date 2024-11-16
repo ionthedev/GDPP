@@ -452,6 +452,16 @@ setup_project_structure() {
     mkdir -p project/bin/
 }
 
+fix_permissions() {
+    echo_status "Fixing file permissions..."
+    chmod -R 755 ./src/
+    chmod -R 755 ./project/
+    chmod -R 755 ./SConstruct
+    chmod -R 755 ./godot-cpp/
+    chmod -R 755 ./SConstruct
+    echo_success "File permissions fixed!"
+}
+
 
 # Main execution
 echo "Starting setup..."
@@ -464,7 +474,7 @@ echo "Setting up project structure"
 setup_project_structure
 echo "Now that THAT is done, I have a few questions for you"
 do_the_thing
-
+fix_permissions
 
 echo "Setup complete! Your development environment is ready."
 echo "You can now build the project using 'make' and run it with './build/program'"
