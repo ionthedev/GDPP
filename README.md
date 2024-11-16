@@ -13,7 +13,7 @@ once it's on your computer, open the directory in your terminal of choice and ru
 sudo chmod +x ./bootstrap.sh
 sudo ./bootstrap.sh
 ```
-
+Once that is done, open godot and create project in the new `project` directory
 
 ## Contribution
 This is Linux only, Supporting Ubuntu, Fedora and Arch. If you want to make a version for MacOS or Windows, feel free to contribute to the repo.
